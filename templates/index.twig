@@ -105,7 +105,7 @@
 								<div class="c-immo-card__heading">
 									<h3 class="c-immo-card__title">{{house.title}}</h3>
 									<!-- todo: roep hier het amount op -->
-									<p class="c-immo-card__price">€{{house.price|money}}</p>
+									<p class="c-immo-card__price">{{house.price|money}}</p>
 								</div>
 								<div class="c-immo-card__location">
 									<img src="{{url('img/icons/location.svg')}}" alt="">
@@ -145,121 +145,33 @@
 
 		</div>
 
-		<!-- locations -->
-		<div class="container c-section">
-			<h2 class="c-section__title">Locations</h2>
-			<p class="c-section__subtitle">Already found your ideal location?</p>
 
 			
 
-			<div class="row justify-content-center c-section__content c-locations text-center">
-			<!-- todo: plak hier de categories vanuit templates/categories/index.twig -->
-				<div class="col-12 col-sm-3 col-lg-2">
-					<ul class="c-locations__list">
-						<li class=" c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class=" c-locations__list-item pb-2">
+			<div class="container c-section">
+    {% set allLocations = craft.entries.section('locations').level(1).one() %}
+    <h2 class="c-section__title">{{ allLocations.title }}</h2>
+    <p class="c-section__subtitle">{{ allLocations.subtext }}</p>
 
-							<a class="c-locations__link " href="#">
-								Kortrijk
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Brussel
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Lokeren
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="col-12 col-sm-3 col-lg-2">
-					<ul class="c-locations__list">
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Antwerpen
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="u-hidden col-sm-3 col-lg-2">
-					<ul class="c-locations__list">
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="u-hidden col-sm-3 col-lg-2">
-					<ul class="c-locations__list">
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-						<li class="c-locations__list-item pb-2">
-
-							<a class="c-locations__link " href="#">
-								Gent
-							</a>
-						</li>
-					</ul>
-				</div>
-
-			</div>
+    <div class="row justify-content-center c-section__content c-locations text-center">
+        {% set regions = allLocations.children.all() %}
+        {% for region in regions %}
+            <div class="col-12 col-sm-3 col-lg-2">
+                <ul class="c-locations__list">
+                    <h3>{{ region.title }}</h3>
+                    {% set cities = region.children.all() %}
+                    {% for city in cities %}
+                    <li class="c-locations__list-item pb-2">
+                        <a class="c-locations__link" href="{{ city.url }}">
+                            {{ city.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 		</div>
 
